@@ -7,6 +7,7 @@
 - 构建脚本支持默认调试证书签名、自定义发布证书签名、`zipalign` 和签名校验。
 - 新增 `scripts/check-upgrade.ps1`，核对包名、`versionCode` 严格递增和签名证书 SHA-256；不匹配时退出码为 1。
 - `scripts/build-wsl.ps1` 新增 `-LegacyApk` 和 `-BuildTools`；签名后自动执行升级兼容门禁，不通过则构建失败。
+- 发布证书的 alias、store/key 密码支持通过 `MIAOMIAO_KEY_ALIAS`、`MIAOMIAO_STORE_PASS`、`MIAOMIAO_KEY_PASS` 环境变量传入，避免写入命令历史或仓库。
 - 确认 2.5.0 与 3.0.0 共用 `miao_config`，设置键一致，启动流程没有清空或删除 SharedPreferences；同签名覆盖安装会保留设置。
 - 验证负向路径：2.5.0 对默认 Debug 3.0.0 返回 `UPGRADE_COMPATIBLE=false`；临时同签名样本返回 `true`。
 - 修复 `.gitignore` 的 UTF-8 编码损坏，补充构建产物、密钥和本地配置的忽略规则。

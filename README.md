@@ -54,6 +54,15 @@ dist\miaomiao-assistant-3.0.0-debug.apk
   -KeyAlias <alias> -StorePass <store-pass> -KeyPass <key-pass>
 ```
 
+也可以把 alias 和密码放在本机环境变量里，避免出现在命令历史中：
+
+```powershell
+$env:MIAOMIAO_KEY_ALIAS = '<alias>'
+$env:MIAOMIAO_STORE_PASS = '<store-pass>'
+$env:MIAOMIAO_KEY_PASS = '<key-pass>'
+.\scripts\build-wsl.ps1 -Keystore D:\secure\miao-release.jks
+```
+
 产物后缀为 `-release.apk`。不要把 keystore 或密码提交到仓库。也可以通过 `-Distro Ubuntu` 指定 WSL 发行版。
 
 ### 无卸载升级与设置保留

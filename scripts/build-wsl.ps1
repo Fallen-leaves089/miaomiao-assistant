@@ -4,9 +4,9 @@ param(
     [string]$OutputDir,
     [string]$ApktoolJar,
     [string]$Keystore,
-    [string]$KeyAlias = 'androiddebugkey',
-    [string]$StorePass = 'android',
-    [string]$KeyPass = 'android',
+    [string]$KeyAlias = $env:MIAOMIAO_KEY_ALIAS,
+    [string]$StorePass = $env:MIAOMIAO_STORE_PASS,
+    [string]$KeyPass = $env:MIAOMIAO_KEY_PASS,
     [string]$LegacyApk,
     [string]$BuildTools
 )
@@ -180,6 +180,22 @@ if (-not $customKeystore) {
     }
 } elseif (-not (Test-Path -LiteralPath $Keystore)) {
     throw "Keystore not found: $Keystore"
+}
+
+if ($customKeystore) {
+    if (-not $KeyAlias) {
+        throw 'KeyAlias is required for a custom keystore. Pass -KeyAlias or set MIAOMIAO_KEY_ALIAS.'
+    }
+    if (-not $StorePass) {
+        throw 'Store password is required for a custom keystore. Pass -StorePass or set MIAOMIAO_STORE_PASS.'
+    }
+    if (-not $KeyPass) {
+        $KeyPass = $StorePass
+    }
+} else {
+    if (-not $KeyAlias) { $KeyAlias = 'androiddebugkey' }
+    if (-not $StorePass) { $StorePass = 'android' }
+    if (-not $KeyPass) { $KeyPass = 'android' }
 }
 
 $suffix = if ($customKeystore) { 'release' } else { 'debug' }
