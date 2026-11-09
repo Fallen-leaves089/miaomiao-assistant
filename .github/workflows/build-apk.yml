@@ -1,0 +1,29 @@
+name: Build APK
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Build unsigned APK
+        run: bash scripts/build.sh "$GITHUB_WORKSPACE" "$GITHUB_WORKSPACE/dist"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: miaomiao-assistant-unsigned
+          path: dist/*-unsigned.apk
+          if-no-files-found: error
