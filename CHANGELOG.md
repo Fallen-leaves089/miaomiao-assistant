@@ -3,6 +3,7 @@
 ## 3.0.1 - 2026-11-09
 
 - 修复无障碍服务「设置」入口仍指向旧包名 `com.ronie.miao.MainActivity` 的问题，现使用 `com.miaomiao.assistant.MainActivity`。
+- 版本展示改为从当前安装包动态读取 `versionName`，修复首启页与「关于」页仍显示旧版 `2.5.0` 的问题。
 - 移除未使用的 `INTERNET`、`RECEIVE_BOOT_COMPLETED` 权限，并关闭应用数据备份（`allowBackup=false`）。
 - 版本提升至 3.0.1（versionCode 52）。
 - 将 2.5.0 历史安装包归档到 `legacy/喵喵助手2.5.0.apk`，并补充 SHA-256 与用途说明。

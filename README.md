@@ -20,6 +20,7 @@
 ## 3.0.1 修复
 
 - 修正无障碍服务「设置」入口的包名，改为 `com.miaomiao.assistant.MainActivity`
+- 首启页与「关于」页改为动态读取安装包版本，不再硬编码 `2.5.0`
 - 移除未使用的 `INTERNET`、`RECEIVE_BOOT_COMPLETED` 权限
 - 关闭应用数据备份（`allowBackup=false`）；同签名覆盖安装仍会保留现有 SharedPreferences
 - 旧版安装包移动到 `legacy/喵喵助手2.5.0.apk`，避免与当前源码产物混淆
