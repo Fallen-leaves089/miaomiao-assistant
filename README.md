@@ -4,7 +4,7 @@
 
 - 作者：91917878qq
 - 反馈邮箱：1490964435@qq.com
-- 最新版本：3.0.0（versionCode 51）
+- 最新版本：3.0.1（versionCode 52）
 - 包名：com.miaomiao.assistant
 
 ## 功能
@@ -17,9 +17,16 @@
 - 崩溃日志：本地记录，可导出日志包反馈
 - 液态玻璃底部导航与玻璃模糊效果（模糊等级 0–2 可调）
 
+## 3.0.1 修复
+
+- 修正无障碍服务「设置」入口的包名，改为 `com.miaomiao.assistant.MainActivity`
+- 移除未使用的 `INTERNET`、`RECEIVE_BOOT_COMPLETED` 权限
+- 关闭应用数据备份（`allowBackup=false`）；同签名覆盖安装仍会保留现有 SharedPreferences
+- 旧版安装包移动到 `legacy/喵喵助手2.5.0.apk`，避免与当前源码产物混淆
+
 ## 构建
 
-> 根目录的 `喵喵助手2.5.0.apk` 是历史版本；当前源码是 3.0.0（versionCode 51）。请用下面的方式生成 3.0.0 APK。
+> `legacy/喵喵助手2.5.0.apk` 是历史版本；当前源码是 3.0.1（versionCode 52）。请用下面的方式生成 3.0.1 APK。
 
 > 旧版 2.5.0 使用 `CN=MiaoMiao Assistant` 发布证书。Android 只允许同签名覆盖安装；默认 Debug 包仅用于开发验证，不能作为 2.5.0 的升级包。要实现无卸载升级，必须通过 `-Keystore` 使用原发布证书签名，并运行升级兼容检查。
 
@@ -36,7 +43,7 @@ powershell -ExecutionPolicy Bypass -File .\scripts\build-wsl.ps1
 脚本会自动下载固定版本 apktool 2.10.0，在 WSL 的 Linux 文件系统中构建，然后使用本机 Android 调试证书签名。默认 Debug 证书仅用于开发验证。产物：
 
 ```text
-dist\miaomiao-assistant-3.0.0-debug.apk
+dist\miaomiao-assistant-3.0.1-debug.apk
 ```
 
 脚本会从当前 Git 的 `HEAD` 干净检出后构建；尚未提交的改动不会进入 APK。
@@ -67,7 +74,7 @@ $env:MIAOMIAO_KEY_PASS = '<key-pass>'
 
 ### 无卸载升级与设置保留
 
-2.5.0 和 3.0.0 使用同一个 SharedPreferences 文件 `miao_config`，设置键名一致；启动流程没有调用 `clear()`、`deleteSharedPreferences()` 或写回默认值来重置配置。因此，只要签名证书相同，覆盖安装会保留：
+2.5.0 和 3.0.1 使用同一个 SharedPreferences 文件 `miao_config`，设置键名一致；启动流程没有调用 `clear()`、`deleteSharedPreferences()` 或写回默认值来重置配置。因此，只要签名证书相同，覆盖安装会保留：
 
 - 规则、预设和分享码相关设置
 - 无障碍服务开关与已选应用
@@ -79,15 +86,15 @@ $env:MIAOMIAO_KEY_PASS = '<key-pass>'
 ```powershell
 .\scripts\build-wsl.ps1 -Keystore D:\secure\miao-release.jks `
   -KeyAlias <alias> -StorePass <store-pass> -KeyPass <key-pass> `
-  -LegacyApk .\喵喵助手2.5.0.apk
+  -LegacyApk .\legacy\喵喵助手2.5.0.apk
 ```
 
 也可以单独检查已生成的 APK：
 
 ```powershell
 .\scripts\check-upgrade.ps1 `
-  -OldApk .\喵喵助手2.5.0.apk `
-  -NewApk .\dist\miaomiao-assistant-3.0.0-release.apk
+  -OldApk .\legacy\喵喵助手2.5.0.apk `
+  -NewApk .\dist\miaomiao-assistant-3.0.1-release.apk
 ```
 
 只有输出 `UPGRADE_COMPATIBLE=true` 才能作为覆盖升级包发布。检查会同时核对包名、`versionCode` 严格递增和签名证书 SHA-256：

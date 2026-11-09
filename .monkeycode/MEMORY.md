@@ -6,12 +6,12 @@ This file records user instructions, preferences, and teachings for reference in
 
 [Current Build Status]
 - Date: 2026-11-09
-- The current `main` branch is an apktool project (`MiaoMiaoAssistant/`); the old Gradle `AndroidStudio/` tree only exists at tag `v3.0.0` and was removed from `main`.
+- The current `main` branch is an apktool project (`MiaoMiaoAssistant/`) targeting `3.0.1` (versionCode 52); the old Gradle `AndroidStudio/` tree only exists at tag `v3.0.0` and was removed from `main`.
 - Do not run Gradle commands against `main`. On Windows, build through `scripts/build-wsl.ps1`; the smali tree contains case-only path collisions that cannot be checked out safely on NTFS.
-- Verified: commit `4cc7614` builds APK `3.0.0` (versionCode 51) with apktool 2.10.0. The output passes v2/v3 signature verification and `zipalign -c -v 4`.
-- Upgrade evidence: 2.5.0 is versionCode 50 with signer SHA-256 `31b4fdeda7978308fa185d9df78f52e9789c2d085feab2ae188db3d04f89369c`; the default debug 3.0.0 signer is `865d3872a44e1500a1ee6fdf28e5aa3780763670d20029b91b0298b3ce9ff627`.
+- The `3.0.1` source fixes the accessibility settings activity package, removes unused `INTERNET`/`RECEIVE_BOOT_COMPLETED` permissions, sets `allowBackup=false`, and keeps the existing `miao_config` preference schema.
+- Upgrade evidence: 2.5.0 is versionCode 50 with signer SHA-256 `31b4fdeda7978308fa185d9df78f52e9789c2d085feab2ae188db3d04f89369c`; the default debug signer is `865d3872a44e1500a1ee6fdf28e5aa3780763670d20029b91b0298b3ce9ff627`.
 - In-place upgrade requires the original release keystore. `scripts/check-upgrade.ps1` checks package, strict versionCode increase, and signer; `scripts/build-wsl.ps1 -LegacyApk ...` enforces it after signing.
-- Settings evidence: 2.5.0 and 3.0.0 both use `miao_config`; the relevant T0/k smali is byte-identical after line-ending normalization, and startup has no `clear()` or `deleteSharedPreferences()`. Same-signature upgrade preserves prefs; a debug-signed build cannot replace 2.5.0.
+- Settings evidence: 2.5.0 and 3.0.1 both use `miao_config`; the relevant T0/k smali is byte-identical after line-ending normalization, and startup has no `clear()` or `deleteSharedPreferences()`. Same-signature upgrade preserves prefs; a debug-signed build cannot replace 2.5.0.
 
 [Project Knowledge Summary]
 - Date: 2026-09-29
