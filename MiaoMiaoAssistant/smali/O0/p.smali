@@ -1415,7 +1415,27 @@
 
     const-string v3, "\u7248\u672c\u53f7"
 
-    const-string v4, "2.5.0"
+    invoke-virtual {v6}, Landroid/content/Context;->getPackageManager()Landroid/content/pm/PackageManager;
+
+    move-result-object v8
+
+    invoke-virtual {v6}, Landroid/content/Context;->getPackageName()Ljava/lang/String;
+
+    move-result-object v10
+
+    const/4 v11, 0x0
+
+    invoke-virtual {v8, v10, v11}, Landroid/content/pm/PackageManager;->getPackageInfo(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;
+
+    move-result-object v8
+
+    iget-object v4, v8, Landroid/content/pm/PackageInfo;->versionName:Ljava/lang/String;
+
+    if-nez v4, :cond_version_ready
+
+    const-string v4, "3.0.1"
+
+    :cond_version_ready
 
     invoke-static {v3, v4, v1, v2}, LO0/E;->d(Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/p;I)V
 
