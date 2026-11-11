@@ -30,7 +30,7 @@ jobs:
             SDKMANAGER="$(command -v sdkmanager)"
           fi
           yes | "$SDKMANAGER" --licenses >/dev/null || true
-          "$SDKMANAGER" "platforms;android-37" "build-tools;36.0.0"
+          "$SDKMANAGER" "platforms;android-37.0" "build-tools;36.0.0"
 
       - name: Build debug APK
         run: |
@@ -42,3 +42,4 @@ jobs:
           name: miaomiao-assistant-debug
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
+
